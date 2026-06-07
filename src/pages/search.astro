@@ -7,11 +7,10 @@ import { searchDocuments } from '../data/site';
   <section class="section search-page">
     <div class="container">
       <header class="search-header reveal is-visible">
-        <p class="eyebrow">Search</p>
-        <h1 class="section-heading">Find Site Content</h1>
+        <p class="eyebrow">Site Search</p>
+        <h1 class="section-heading">Search SiteSelectionStrategist</h1>
         <p>
-          Search pages, services, testimonials, and contact details across the
-          static site.
+          Look up services, process steps, testimonials, and contact details.
         </p>
       </header>
 
@@ -37,51 +36,60 @@ import { searchDocuments } from '../data/site';
       tags: string[];
     };
 
-    const input = document.querySelector<HTMLInputElement>('#site-search');
-    const results = document.querySelector<HTMLElement>('#search-results');
-    const count = document.querySelector<HTMLElement>('#search-count');
-    const indexNode = document.querySelector<HTMLScriptElement>('#search-index');
-    const docs = JSON.parse(indexNode?.textContent || '[]') as SearchDoc[];
-    const fuse = new Fuse(docs, {
-      keys: [
-        { name: 'title', weight: 0.4 },
-        { name: 'excerpt', weight: 0.25 },
-        { name: 'body', weight: 0.25 },
-        { name: 'tags', weight: 0.1 },
-      ],
-      threshold: 0.36,
-      ignoreLocation: true,
-    });
+    const initSearch = () => {
+      const input = document.querySelector<HTMLInputElement>('#site-search');
+      const results = document.querySelector<HTMLElement>('#search-results');
+      const count = document.querySelector<HTMLElement>('#search-count');
+      const indexNode = document.querySelector<HTMLScriptElement>('#search-index');
 
-    const render = (query = '') => {
-      const trimmed = query.trim();
-      const matches = trimmed
-        ? fuse.search(trimmed).map((result) => result.item)
-        : docs.slice(0, 8);
+      if (!input || !results || !count || !indexNode) return;
 
-      if (!count || !results) return;
+      const docs = JSON.parse(indexNode.textContent || '[]') as SearchDoc[];
+      const fuse = new Fuse(docs, {
+        keys: [
+          { name: 'title', weight: 0.4 },
+          { name: 'excerpt', weight: 0.25 },
+          { name: 'body', weight: 0.25 },
+          { name: 'tags', weight: 0.1 },
+        ],
+        threshold: 0.36,
+        ignoreLocation: true,
+      });
 
-      count.textContent = trimmed
-        ? `${matches.length} result${matches.length === 1 ? '' : 's'}`
-        : 'Start typing or choose a page below.';
+      const render = (query = '') => {
+        const trimmed = query.trim();
+        const matches = trimmed
+          ? fuse.search(trimmed).map((result) => result.item)
+          : docs.slice(0, 8);
 
-      results.innerHTML = matches
-        .map(
-          (doc: SearchDoc) => `
-            <a class="result-card" href="${route(doc.href)}">
-              <strong>${doc.title}</strong>
-              <span>${doc.excerpt}</span>
-            </a>
-          `,
-        )
-        .join('');
+        count.textContent = trimmed
+          ? `${matches.length} result${matches.length === 1 ? '' : 's'}`
+          : 'Start typing or choose a page below.';
+
+        results.innerHTML = matches
+          .map(
+            (doc: SearchDoc) => `
+              <a class="result-card" href="${route(doc.href)}">
+                <strong>${doc.title}</strong>
+                <span>${doc.excerpt}</span>
+              </a>
+            `,
+          )
+          .join('');
+      };
+
+      if (input.dataset.searchBound !== 'true') {
+        input.addEventListener('input', () => {
+          render(input.value);
+        });
+        input.dataset.searchBound = 'true';
+      }
+
+      render(input.value);
     };
 
-    input?.addEventListener('input', () => {
-      render(input.value);
-    });
-
-    render('');
+    initSearch();
+    document.addEventListener('astro:page-load', initSearch);
   </script>
 </BaseLayout>
 
