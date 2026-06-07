@@ -8,11 +8,15 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 const {
   title,
   description = 'Hotel site selection partner and advocate for meeting planners.',
+  image = 'assets/social-home.jpg',
+  imageAlt = 'SiteSelectionStrategist LLC Hotel Site Selection',
 } = Astro.props;
 
 const pageTitle = title.includes('SiteSelectionStrategist')
@@ -20,7 +24,7 @@ const pageTitle = title.includes('SiteSelectionStrategist')
   : `${title} | SiteSelectionStrategist`;
 const absoluteBase = Astro.site ?? Astro.url;
 const pageUrl = new URL(Astro.url.pathname, absoluteBase).toString();
-const socialImageUrl = new URL(asset('assets/social-preview.png'), absoluteBase).toString();
+const socialImageUrl = new URL(asset(image), absoluteBase).toString();
 ---
 
 <!doctype html>
@@ -41,7 +45,7 @@ const socialImageUrl = new URL(asset('assets/social-preview.png'), absoluteBase)
     <meta property="og:image:secure_url" content={socialImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="SiteSelectionStrategist LLC Hotel Site Selection" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
