@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactBand from '../components/ContactBand.astro';
+import PageHero from '../components/PageHero.astro';
+import ProcessCard from '../components/ProcessCard.astro';
+import { processItems } from '../data/site';
+---
+
+<BaseLayout title="The Process">
+  <PageHero title="The Process" image="assets/hero-process.jpg" />
+
+  <section class="section">
+    <div class="container process-intro reveal">
+      <p class="eyebrow">Hotel Site Selection</p>
+      <h1 class="section-heading">A clear path from search to signed agreement</h1>
+      <p>
+        The process is built to help meeting planners compare hotel options,
+        negotiate terms, and protect the program through every stage.
+      </p>
+    </div>
+    <div class="wide-container process-grid">
+      {processItems.map((item) => <ProcessCard item={item} />)}
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>
+
+<style>
+  .process-intro {
+    max-width: 780px;
+    margin: 0 auto 58px;
+    text-align: center;
+  }
+
+  .process-intro p:not(.eyebrow) {
+    color: #666;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 58px 38px;
+  }
+
+  @media (max-width: 980px) {
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

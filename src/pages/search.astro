@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { searchDocuments } from '../data/site';
+---
+
+<BaseLayout title="Search">
+  <section class="section search-page">
+    <div class="container">
+      <header class="search-header reveal is-visible">
+        <p class="eyebrow">Search</p>
+        <h1 class="section-heading">Find Site Content</h1>
+        <p>
+          Search pages, services, testimonials, and contact details across the
+          static site.
+        </p>
+      </header>
+
+      <div class="search-shell reveal is-visible">
+        <label for="site-search">Search the site</label>
+        <input id="site-search" type="search" placeholder="Try proposal, CEO, contracting, conference..." autocomplete="off" />
+        <div id="search-count" class="search-count" aria-live="polite"></div>
+        <div id="search-results" class="results"></div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline type="application/json" id="search-index" set:html={JSON.stringify(searchDocuments)} />
+  <script>
+    import Fuse from 'fuse.js';
+    import { route } from '../utils/paths';
+
+    type SearchDoc = {
+      title: string;
+      href: string;
+      excerpt: string;
+      body: string;
+      tags: string[];
+    };
+
+    const input = document.querySelector<HTMLInputElement>('#site-search');
+    const results = document.querySelector<HTMLElement>('#search-results');
+    const count = document.querySelector<HTMLElement>('#search-count');
+    const indexNode = document.querySelector<HTMLScriptElement>('#search-index');
+    const docs = JSON.parse(indexNode?.textContent || '[]') as SearchDoc[];
+    const fuse = new Fuse(docs, {
+      keys: [
+        { name: 'title', weight: 0.4 },
+        { name: 'excerpt', weight: 0.25 },
+        { name: 'body', weight: 0.25 },
+        { name: 'tags', weight: 0.1 },
+      ],
+      threshold: 0.36,
+      ignoreLocation: true,
+    });
+
+    const render = (query = '') => {
+      const trimmed = query.trim();
+      const matches = trimmed
+        ? fuse.search(trimmed).map((result) => result.item)
+        : docs.slice(0, 8);
+
+      if (!count || !results) return;
+
+      count.textContent = trimmed
+        ? `${matches.length} result${matches.length === 1 ? '' : 's'}`
+        : 'Start typing or choose a page below.';
+
+      results.innerHTML = matches
+        .map(
+          (doc: SearchDoc) => `
+            <a class="result-card" href="${route(doc.href)}">
+              <strong>${doc.title}</strong>
+              <span>${doc.excerpt}</span>
+            </a>
+          `,
+        )
+        .join('');
+    };
+
+    input?.addEventListener('input', () => {
+      render(input.value);
+    });
+
+    render('');
+  </script>
+</BaseLayout>
+
+<style>
+  .search-page {
+    min-height: 72vh;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
+      var(--sss-soft);
+  }
+
+  .search-header {
+    max-width: 740px;
+    margin: 0 auto 42px;
+    text-align: center;
+  }
+
+  .search-header p:not(.eyebrow) {
+    color: #666;
+    font-size: 1.05rem;
+  }
+
+  .search-shell {
+    width: min(820px, 100%);
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.12);
+    padding: clamp(24px, 5vw, 42px);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #444;
+    font-weight: 900;
+  }
+
+  input {
+    width: 100%;
+    min-height: 54px;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    padding: 0 16px;
+    outline: none;
+  }
+
+  input:focus {
+    border-color: var(--sss-gold);
+    box-shadow: 0 0 0 3px rgba(237, 187, 95, 0.18);
+  }
+
+  .search-count {
+    min-height: 28px;
+    margin: 18px 0;
+    color: #777;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .results {
+    display: grid;
+    gap: 12px;
+  }
+
+  .result-card {
+    display: grid;
+    gap: 6px;
+    border: 1px solid #ececec;
+    padding: 18px;
+    transition:
+      border-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .result-card:hover {
+    border-color: var(--sss-gold);
+    transform: translateY(-1px);
+  }
+
+  .result-card strong {
+    color: #333;
+    font-size: 1.05rem;
+  }
+
+  .result-card span {
+    color: #666;
+    line-height: 1.6;
+  }
+</style>

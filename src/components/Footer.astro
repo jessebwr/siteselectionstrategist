@@ -1,0 +1,47 @@
+---
+import { contact } from '../data/site';
+import { route } from '../utils/paths';
+---
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="container footer-grid">
+      <a href={route('/contact-us/')}>{contact.reach}</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <p>Copyright © 2020 SITESELECTIONSTRATEGIST LLC. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: #151515;
+    color: var(--sss-gold);
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
+  .footer-top {
+    min-height: 62px;
+    background: #303030;
+  }
+
+  .footer-grid {
+    display: flex;
+    min-height: 62px;
+    align-items: center;
+  }
+
+  .footer-bottom .container {
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+  }
+
+  p {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,221 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactBand from '../components/ContactBand.astro';
+import ProcessCard from '../components/ProcessCard.astro';
+import { contact, processItems } from '../data/site';
+import { asset, route } from '../utils/paths';
+
+const previewItems = processItems.slice(0, 4);
+---
+
+<BaseLayout
+  title="SiteSelectionStrategist LLC"
+  description="Hotel site selection partner and advocate for meeting planners."
+>
+  <section class="home-hero">
+    <video autoplay muted loop playsinline poster={asset('assets/hero-process.jpg')}>
+      <source src={asset('assets/hero-conference-meeting.mp4')} type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content reveal is-visible">
+      <img src={asset('assets/logo-full.png')} alt="SiteSelectionStrategist LLC Hotel Site Selection" />
+      <div class="button-row">
+        <a class="outline-button" href={contact.phoneHref}>{contact.phoneDisplay}</a>
+        <a class="outline-button" href={route('/the-process/')}>The Process</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section competence">
+    <div class="wide-container competence-grid">
+      <div class="competence-copy reveal">
+        <h1 class="section-heading">Core Competence</h1>
+        <span class="gold-rule"></span>
+        <p>
+          SiteSelectionStrategist LLC is the meeting planner's conference site
+          selection partner and advocate from the moment of inception through
+          the conclusion of a program.
+        </p>
+        <a class="outline-button light-button" href={route('/about-us-2/')}>Read More</a>
+      </div>
+      <div class="competence-image reveal">
+        <img src={asset('assets/about-core.jpg')} alt="Conference site selection meeting space" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section process-preview">
+    <div class="container">
+      <header class="centered reveal">
+        <h2>The Process</h2>
+        <span class="gold-rule"></span>
+      </header>
+      <div class="preview-grid">
+        {previewItems.map((item) => <ProcessCard item={item} compact />)}
+      </div>
+      <div class="view-more reveal">
+        <a class="outline-button light-button" href={route('/the-process/')}>View More</a>
+      </div>
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>
+
+<style>
+  .home-hero {
+    position: relative;
+    display: grid;
+    min-height: calc(100vh - 88px);
+    place-items: center;
+    overflow: hidden;
+    background: #050505;
+  }
+
+  video,
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  video {
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    background: rgba(0, 0, 0, 0.78);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: min(760px, calc(100vw - 48px));
+    gap: 26px;
+    justify-items: center;
+    padding: 80px 0;
+    animation: heroFade 500ms ease-in-out both;
+  }
+
+  .hero-content img {
+    width: min(690px, 100%);
+    min-height: 96px;
+    object-fit: contain;
+  }
+
+  .competence {
+    background: #fff;
+  }
+
+  .competence-grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.9fr) minmax(420px, 1.1fr);
+    gap: clamp(42px, 7vw, 76px);
+    align-items: center;
+  }
+
+  .competence-copy {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .competence-copy p {
+    max-width: 620px;
+    margin: 30px 0 50px;
+    color: #777;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    line-height: 2;
+  }
+
+  .competence-image {
+    box-shadow: 80px -50px 0 rgba(12, 12, 12, 0.03);
+  }
+
+  .competence-image img {
+    width: 100%;
+    aspect-ratio: 1.34 / 1;
+    object-fit: cover;
+  }
+
+  .process-preview {
+    padding-top: 20px;
+  }
+
+  .centered {
+    text-align: center;
+  }
+
+  .centered h2 {
+    margin: 0;
+    color: var(--sss-gold-deep);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 56px;
+    width: min(820px, 100%);
+    margin: 48px auto 0;
+  }
+
+  .view-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 56px;
+  }
+
+  @keyframes heroFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .home-hero {
+      min-height: calc(100vh - 68px);
+    }
+
+    .competence-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .competence-image {
+      box-shadow: 28px -24px 0 rgba(12, 12, 12, 0.04);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-content {
+      gap: 20px;
+      padding: 64px 0;
+    }
+
+    .hero-content img {
+      min-height: 58px;
+    }
+
+    .button-row {
+      width: min(280px, 100%);
+    }
+
+    .outline-button {
+      width: 100%;
+    }
+
+    .preview-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+</style>

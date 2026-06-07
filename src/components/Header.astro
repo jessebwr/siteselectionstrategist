@@ -1,0 +1,266 @@
+---
+import { navItems } from '../data/site';
+import { asset, route } from '../utils/paths';
+
+const activePath = Astro.url.pathname
+  .replace(import.meta.env.BASE_URL, '/')
+  .replace(/\/+/g, '/');
+
+const isActive = (href: string) => {
+  if (href === '/') return activePath === '/' || activePath === '';
+  return activePath.startsWith(href);
+};
+---
+
+<header class="site-header" data-site-header>
+  <a class="brand" href={route('/')} aria-label="SiteSelectionStrategist home">
+    <img src={asset('assets/logo-full.png')} alt="SiteSelectionStrategist LLC Hotel Site Selection" />
+  </a>
+
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    {navItems.map((item) => (
+      <a class:list={{ active: isActive(item.href) }} href={route(item.href)}>{item.label}</a>
+    ))}
+    <a class="search-link" href={route('/search/')} aria-label="Search site">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+      </svg>
+    </a>
+  </nav>
+
+  <div class="mobile-actions">
+    <a class="mobile-search" href={route('/search/')} aria-label="Search site">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+      </svg>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu data-open="false">
+    {navItems.map((item) => (
+      <a class:list={{ active: isActive(item.href) }} href={route(item.href)}>{item.label}</a>
+    ))}
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    min-height: 88px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    background: #202020;
+    padding: 0 30px;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    transition:
+      min-height 360ms ease,
+      background-color 360ms ease,
+      box-shadow 360ms ease,
+      padding 360ms ease;
+  }
+
+  .site-header.is-scrolled {
+    min-height: 64px;
+    background: #383838;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 1 360px;
+  }
+
+  .brand img {
+    width: min(330px, 34vw);
+    min-width: 220px;
+    height: auto;
+    transform-origin: left center;
+    transition:
+      width 360ms ease,
+      min-width 360ms ease,
+      opacity 220ms ease;
+  }
+
+  .site-header.is-scrolled .brand img {
+    width: min(260px, 28vw);
+    min-width: 190px;
+  }
+
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(16px, 1.7vw, 26px);
+  }
+
+  .desktop-nav a,
+  .mobile-menu a {
+    color: var(--sss-gold);
+    font-family: Lato, Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    transform-origin: center;
+    transition:
+      color 160ms ease,
+      transform 360ms ease;
+    white-space: nowrap;
+  }
+
+  .site-header.is-scrolled .desktop-nav a {
+    transform: scale(0.955);
+  }
+
+  .desktop-nav a:hover,
+  .desktop-nav a.active,
+  .mobile-menu a:hover,
+  .mobile-menu a.active {
+    color: #fff;
+  }
+
+  .search-link,
+  .mobile-search {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .mobile-actions,
+  .mobile-menu {
+    display: none;
+  }
+
+  @media (max-width: 980px) {
+    .site-header {
+      min-height: 68px;
+      padding: 0 18px;
+    }
+
+    .site-header.is-scrolled {
+      min-height: 58px;
+      padding: 0 16px;
+    }
+
+    .brand img {
+      width: 216px;
+      min-width: 0;
+    }
+
+    .site-header.is-scrolled .brand img {
+      width: 184px;
+      min-width: 0;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    .mobile-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--sss-gold);
+    }
+
+    .menu-toggle {
+      display: inline-flex;
+      width: 32px;
+      height: 32px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 0;
+      color: var(--sss-gold);
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      transition:
+        transform 160ms ease,
+        opacity 160ms ease;
+    }
+
+    .menu-toggle[aria-expanded='true'] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded='true'] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle[aria-expanded='true'] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 68px 0 auto 0;
+      display: grid;
+      gap: 0;
+      border-top: 1px solid rgba(237, 187, 95, 0.18);
+      background: rgba(32, 32, 32, 0.98);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-12px);
+      transition:
+        opacity 160ms ease,
+        transform 160ms ease;
+    }
+
+    .mobile-menu[data-open='true'] {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .site-header.is-scrolled .mobile-menu {
+      inset-block-start: 58px;
+    }
+
+    .mobile-menu a {
+      border-bottom: 1px solid rgba(237, 187, 95, 0.14);
+      padding: 18px 24px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .brand img {
+      width: 186px;
+    }
+  }
+</style>

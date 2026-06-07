@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactBand from '../components/ContactBand.astro';
+import PageHero from '../components/PageHero.astro';
+import { processItems } from '../data/site';
+import { asset, route } from '../utils/paths';
+
+export function getStaticPaths() {
+  return processItems.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<BaseLayout title={item.title} description={item.excerpt}>
+  <PageHero title={item.title} image={item.image} compact />
+
+  <section class="section detail-section">
+    <div class="container detail-grid">
+      <div class="detail-copy reveal">
+        <p class="eyebrow">The Process</p>
+        <h1 class="section-heading">{item.title}</h1>
+        <span class="detail-rule"></span>
+        <p class="lead">{item.excerpt}</p>
+        <p>{item.body}</p>
+        <a class="outline-button light-button" href={route('/the-process/')}>Back to Process</a>
+      </div>
+      <div class="detail-image reveal zoom">
+        <img src={asset(item.image)} alt="" />
+      </div>
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>
+
+<style>
+  .detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+    gap: clamp(38px, 7vw, 86px);
+    align-items: center;
+  }
+
+  .detail-copy {
+    display: grid;
+    justify-items: start;
+  }
+
+  .detail-rule {
+    width: 60px;
+    height: 3px;
+    margin: 26px 0 30px;
+    background: var(--sss-gold);
+  }
+
+  .lead {
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.65;
+  }
+
+  p {
+    color: #666;
+    line-height: 1.9;
+  }
+
+  .detail-image {
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+  }
+
+  .detail-image img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .outline-button {
+    margin-top: 28px;
+  }
+
+  @media (max-width: 840px) {
+    .detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+import type { ProcessItem } from '../data/site';
+import { asset, route } from '../utils/paths';
+
+interface Props {
+  item: ProcessItem;
+  compact?: boolean;
+}
+
+const { item, compact = false } = Astro.props;
+---
+
+<article class:list={['process-card', compact && 'compact', 'reveal', 'zoom']}>
+  <a class="image-link" href={route(`/${item.slug}/`)}>
+    <img src={asset(item.image)} alt="" loading="lazy" />
+  </a>
+  <div class="process-copy">
+    <h3><a href={route(`/${item.slug}/`)}>{item.title}</a></h3>
+    {!compact && <p>{item.excerpt}</p>}
+  </div>
+</article>
+
+<style>
+  .process-card {
+    display: grid;
+    gap: 18px;
+    align-content: start;
+  }
+
+  .image-link {
+    display: block;
+    background: #eee;
+    box-shadow: 0 7px 24px rgba(0, 0, 0, 0.24);
+    overflow: hidden;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 260ms ease;
+  }
+
+  .image-link:hover img {
+    transform: scale(1.035);
+  }
+
+  h3 {
+    margin: 0;
+    color: #333;
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  p {
+    margin: 10px 0 0;
+    color: #666;
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  .compact {
+    gap: 14px;
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactBand from '../components/ContactBand.astro';
+import { asset } from '../utils/paths';
+---
+
+<BaseLayout title="The CEO">
+  <section class="ceo-section dark-band">
+    <div class="container title-block reveal is-visible">
+      <h1>THE CEO</h1>
+      <span class="gold-rule"></span>
+    </div>
+
+    <div class="wide-container ceo-grid">
+      <div class="ceo-image reveal">
+        <img src={asset('assets/ceo-elizabeth.png')} alt="Elizabeth Caragay Watts-Russell" />
+      </div>
+      <article class="ceo-copy reveal">
+        <h2>Elizabeth Caragay Watts-Russell</h2>
+        <div class="socials" aria-label="Elizabeth social links">
+          <a href="https://www.facebook.com/elizabeth.wattsrussell">Facebook</a>
+          <a href="https://www.linkedin.com/in/elizabethcaragaywattsrussell">LinkedIn</a>
+        </div>
+        <p>
+          Elizabeth Caragay Watts-Russell is a seasoned hospitality industry
+          professional with over twenty years of experience working with the big
+          hotel brands and boutique properties in the areas of Administration,
+          Food and Beverage, and Room Sales.
+        </p>
+        <p>
+          Subsequently, she branched out into hotel site selection for the
+          Meetings, Incentives, Conferences, and Exhibitions (MICE) market. Also
+          a Paralegal, she is well-versed in hotel negotiation and contracting,
+          well at ease with both sides of the trade, as a hotelier and a buyer.
+          She leverages her strong relationships with hotels and destination
+          leaders to bring the most value adds to any program.
+        </p>
+      </article>
+    </div>
+  </section>
+  <ContactBand />
+</BaseLayout>
+
+<style>
+  .ceo-section {
+    padding: clamp(76px, 8vw, 112px) 0 clamp(70px, 8vw, 110px);
+  }
+
+  .title-block {
+    text-align: center;
+  }
+
+  h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+  }
+
+  .ceo-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.78fr) minmax(320px, 1fr);
+    gap: clamp(38px, 7vw, 92px);
+    align-items: center;
+    margin-top: clamp(52px, 7vw, 84px);
+  }
+
+  .ceo-image img {
+    width: min(560px, 100%);
+    max-height: 751px;
+    object-fit: cover;
+  }
+
+  .ceo-copy {
+    max-width: 680px;
+  }
+
+  h2 {
+    margin: 0 0 8px;
+    color: var(--sss-gold);
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .socials a {
+    color: var(--sss-gold);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  p {
+    margin: 0 0 20px;
+    color: #e2e2e2;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    line-height: 1.85;
+  }
+
+  @media (max-width: 860px) {
+    .ceo-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ceo-image img {
+      margin: 0 auto;
+    }
+  }
+</style>

@@ -1,0 +1,14 @@
+export function route(path = '/'): string {
+  const base = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+  const clean = path.replace(/^\/+/, '');
+  return clean ? `${base}${clean}` : base;
+}
+
+export function asset(path: string): string {
+  const base = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+  return `${base}${path.replace(/^\/+/, '')}`;
+}

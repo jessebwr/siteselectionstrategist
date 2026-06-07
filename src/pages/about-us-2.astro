@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactBand from '../components/ContactBand.astro';
+import PageHero from '../components/PageHero.astro';
+import { asset } from '../utils/paths';
+---
+
+<BaseLayout title="About">
+  <PageHero eyebrow="Who We Are" title="About Us" image="assets/about-core.jpg" compact />
+
+  <section class="section about-section">
+    <div class="container intro-grid">
+      <div class="reveal">
+        <p class="eyebrow">Core Competence</p>
+        <h1 class="section-heading">Hotel Site Selection Partner</h1>
+      </div>
+      <div class="reveal">
+        <p>
+          SiteSelectionStrategist LLC supports meeting planners with hotel site
+          selection from the first program conversation through the final
+          contract details. The work combines hospitality experience, hotel
+          relationships, market knowledge, and planner-side advocacy.
+        </p>
+        <p>
+          Elizabeth Caragay Watts-Russell brings a hotelier's understanding of
+          operations and a buyer's attention to program goals, helping clients
+          compare properties clearly and negotiate with confidence.
+        </p>
+      </div>
+    </div>
+    <div class="container values-grid">
+      {['Strategic', 'Professional', 'Loyal'].map((item) => (
+        <article class="value-card reveal">
+          <h2>{item}</h2>
+          <p>
+            Every recommendation is shaped around the program's goals, attendee
+            experience, and the details that make hotel agreements work in
+            practice.
+          </p>
+        </article>
+      ))}
+    </div>
+    <div class="container about-image reveal">
+      <img src={asset('assets/process-site-search.jpg')} alt="Hotel site search meeting" />
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>
+
+<style>
+  .about-section {
+    background: #fff;
+  }
+
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 0.82fr 1.18fr;
+    gap: clamp(36px, 7vw, 86px);
+    align-items: start;
+  }
+
+  .intro-grid p:not(.eyebrow) {
+    margin: 0 0 20px;
+    color: #666;
+    letter-spacing: 0.02em;
+    line-height: 2;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: -4px;
+    transform: translateY(48px);
+    box-shadow: 0 18px 70px rgba(0, 0, 0, 0.08);
+  }
+
+  .value-card {
+    min-height: 210px;
+    border-right: 1px solid #eee;
+    background: #fff;
+    padding: 38px;
+  }
+
+  .value-card:last-child {
+    border-right: 0;
+  }
+
+  h2 {
+    margin: 0 0 12px;
+    color: #555;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .value-card p {
+    margin: 0;
+    color: #777;
+    font-size: 0.95rem;
+  }
+
+  .about-image {
+    margin-top: 104px;
+  }
+
+  .about-image img {
+    width: min(640px, 100%);
+    margin-left: auto;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 860px) {
+    .intro-grid,
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .values-grid {
+      transform: none;
+      margin-top: 42px;
+    }
+
+    .value-card {
+      border-right: 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .about-image {
+      margin-top: 46px;
+    }
+  }
+</style>

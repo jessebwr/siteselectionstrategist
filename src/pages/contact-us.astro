@@ -1,0 +1,325 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contact } from '../data/site';
+import { asset } from '../utils/paths';
+
+const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT || '';
+---
+
+<BaseLayout title="Contact">
+  <section class="contact-hero">
+    <img src={asset('assets/hero-process.jpg')} alt="" />
+    <div class="overlay"></div>
+    <div class="container contact-hero-copy reveal is-visible">
+      <p>{contact.phoneDisplay}</p>
+      <h1>Contact Us</h1>
+    </div>
+  </section>
+
+  <section class="section contact-section">
+    <div class="container contact-grid">
+      <form
+        class="contact-form reveal"
+        action={formEndpoint || `mailto:${contact.email}`}
+        method="post"
+        enctype={formEndpoint ? 'application/x-www-form-urlencoded' : 'text/plain'}
+        data-contact-form
+        data-form-endpoint={formEndpoint}
+        data-recipient={contact.email}
+      >
+        <h2>Get In Touch</h2>
+        <input type="hidden" name="_subject" value="SiteSelectionStrategist inquiry" />
+        <label>
+          First Name
+          <input name="first_name" autocomplete="given-name" required />
+        </label>
+        <label>
+          Last Name
+          <input name="last_name" autocomplete="family-name" required />
+        </label>
+        <label>
+          Email
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label>
+          Message
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button type="submit">Submit</button>
+        <p class="form-status" data-form-status aria-live="polite"></p>
+      </form>
+
+      <div class="contact-details reveal">
+        <article>
+          <span></span>
+          <div>
+            <h2>Contact Us</h2>
+            <p>Phone: <a href={contact.phoneHref}>{contact.phoneDisplay}</a></p>
+            <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+          </div>
+        </article>
+        <article>
+          <span></span>
+          <div>
+            <h2>Visit Us</h2>
+            <p>{contact.location}</p>
+            <p>{contact.reach}</p>
+          </div>
+        </article>
+        <article>
+          <span></span>
+          <div>
+            <h2>Open Hours</h2>
+            <p>Mon-Fri: 8am - 5pm</p>
+            <p>Sat-Sun: By Appointment</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+    const status = document.querySelector<HTMLElement>('[data-form-status]');
+
+    form?.addEventListener('submit', async (event) => {
+      const endpoint = form.dataset.formEndpoint || '';
+      const recipient = form.dataset.recipient || '';
+      const data = new FormData(form);
+      const fullName = [data.get('first_name'), data.get('last_name')]
+        .filter(Boolean)
+        .join(' ');
+
+      if (!endpoint) {
+        event.preventDefault();
+        const subject = encodeURIComponent('SiteSelectionStrategist inquiry');
+        const body = encodeURIComponent(
+          [
+            `Name: ${fullName}`,
+            `Email: ${data.get('email') || ''}`,
+            '',
+            String(data.get('message') || ''),
+          ].join('\n'),
+        );
+        window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+        if (status) status.textContent = 'Opening your email app...';
+        return;
+      }
+
+      event.preventDefault();
+      if (status) status.textContent = 'Sending...';
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: data,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Contact form submission failed.');
+        }
+
+        form.reset();
+        if (status) status.textContent = 'Thanks. Your message has been sent.';
+      } catch {
+        if (status) {
+          status.textContent = `Something went wrong. Please email ${recipient}.`;
+        }
+      }
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .contact-hero {
+    position: relative;
+    min-height: clamp(360px, 50vw, 620px);
+    overflow: hidden;
+    background: #222;
+  }
+
+  .contact-hero > img,
+  .overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .contact-hero > img {
+    object-fit: cover;
+  }
+
+  .overlay {
+    background: rgba(0, 0, 0, 0.62);
+  }
+
+  .contact-hero-copy {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    min-height: clamp(360px, 50vw, 620px);
+    align-content: center;
+    justify-items: end;
+    text-align: right;
+  }
+
+  .contact-hero-copy p {
+    margin: 0 0 4px;
+    color: var(--sss-gold);
+    font-family: Poppins, Helvetica, Arial, sans-serif;
+    font-size: clamp(1rem, 2.1vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .contact-section {
+    margin-top: -104px;
+    padding-top: 0;
+  }
+
+  .contact-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(300px, 480px) minmax(320px, 1fr);
+    gap: clamp(42px, 7vw, 90px);
+    align-items: center;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 18px;
+    background: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+    padding: clamp(34px, 5vw, 58px);
+  }
+
+  .contact-form h2 {
+    margin: 0 0 22px;
+    color: #333;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  label {
+    display: grid;
+    gap: 6px;
+    color: #666;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  input,
+  textarea {
+    min-height: 42px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    background: transparent;
+    outline: 0;
+  }
+
+  textarea {
+    min-height: 112px;
+    padding: 8px 0;
+    resize: vertical;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--sss-gold);
+  }
+
+  button {
+    min-height: 48px;
+    border: 2px solid var(--sss-gold);
+    color: var(--sss-gold);
+    background: transparent;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .form-status {
+    min-height: 1.4em;
+    margin: 0;
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .contact-details {
+    display: grid;
+    gap: 30px;
+  }
+
+  .contact-details article {
+    display: grid;
+    grid-template-columns: 8px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .contact-details span {
+    display: block;
+    width: 8px;
+    height: 100%;
+    min-height: 64px;
+    border-radius: 0;
+    background: var(--sss-gold);
+    opacity: 0.92;
+  }
+
+  .contact-details h2 {
+    margin: 0 0 8px;
+    color: #aaa;
+    font-size: 0.86rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .contact-details p {
+    margin: 0 0 4px;
+    color: #555;
+    font-weight: 700;
+  }
+
+  @media (max-width: 880px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-hero-copy {
+      justify-items: start;
+      text-align: left;
+    }
+
+    .contact-section {
+      margin-top: -64px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .contact-details article {
+      grid-template-columns: 6px 1fr;
+      gap: 16px;
+    }
+  }
+</style>
