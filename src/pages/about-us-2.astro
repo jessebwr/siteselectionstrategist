@@ -16,27 +16,48 @@ import { asset } from '../utils/paths';
       </div>
       <div class="reveal">
         <p>
-          SiteSelectionStrategist LLC supports meeting planners with hotel site
-          selection from the first program conversation through the final
-          contract details. The work combines hospitality experience, hotel
-          relationships, market knowledge, and planner-side advocacy.
+          SiteSelectionStrategist LLC is the meeting planner&rsquo;s conference
+          venue site selection partner advocate from the moment of inception
+          through the conclusion of a program.
         </p>
         <p>
-          Elizabeth Caragay Watts-Russell brings a hotelier's understanding of
-          operations and a buyer's attention to program goals, helping clients
-          compare properties clearly and negotiate with confidence.
+          From intimate meetings of ten people to large-scale incentive programs
+          or convention for thousands, globally, SiteSelectionStrategist LLC is
+          your ValuePlus and FeeFree site selection ally.
+        </p>
+        <p>
+          We are the conduit between client and hotel in a very collaborative
+          process with the singular focus of positioning a program to be the
+          best it can possibly be at the most suitable venue with the best
+          values and most favorable terms.
+        </p>
+        <p>
+          We handle all the time-intensive details involved in hotel site
+          selection, a welcome fee-free service to meeting planners who are
+          increasingly burdened with the strain of diminishing budgets and
+          staffing and competition for space availability in a seller&rsquo;s
+          market.
         </p>
       </div>
     </div>
     <div class="container values-grid">
-      {['Strategic', 'Professional', 'Loyal'].map((item) => (
+      {[
+        {
+          heading: 'Strategic',
+          copy: 'We leverage industry knowledge, market intelligence, and established hotel relationships to identify the right properties and negotiate competitive rates, concessions, and favorable contract terms.',
+        },
+        {
+          heading: 'Professional',
+          copy: 'We bring decades of hospitality experience, meticulous attention to detail, and a thorough understanding of hotel operations to every stage of the site selection and contracting process.',
+        },
+        {
+          heading: 'Loyal',
+          copy: 'Our loyalty is to our clients. We represent their interests exclusively, advocate for their priorities, and negotiate agreements that protect their investment and support their program\u2019s success.',
+        },
+      ].map((item) => (
         <article class="value-card reveal">
-          <h2>{item}</h2>
-          <p>
-            Every recommendation is shaped around the program's goals, attendee
-            experience, and the details that make hotel agreements work in
-            practice.
-          </p>
+          <h2>{item.heading}</h2>
+          <p>{item.copy}</p>
         </article>
       ))}
     </div>
