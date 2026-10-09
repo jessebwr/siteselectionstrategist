@@ -44,7 +44,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Translate program needs into a clear hotel RFP that attracts responsive, comparable proposals.',
     body:
-      'SiteSelectionStrategist helps define rooms, dates, meeting space, concessions, destination needs, and decision criteria before hotels are contacted. The result is a cleaner RFP process and a stronger basis for comparison.',
+      'With our proprietary technology platform, construct and publish a comprehensive RFP to fully reflect a program’s parameters to immediately streamline the site selection.',
   },
   {
     title: 'Site Search',
@@ -53,7 +53,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Identify hotel and destination options that fit the meeting goals, budget, and attendee experience.',
     body:
-      'The search phase narrows the field from broad destination possibilities to practical properties that can support the program. Elizabeth uses hotel relationships and market knowledge to surface options planners can act on.',
+      'Identify the destinations, hotels and venues who best suit the program criteria, review responses and prepare a comparative report for client’s ease of review.',
   },
   {
     title: 'Negotiate',
@@ -62,7 +62,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Negotiate business terms, concessions, room rates, space, and protections with both sides in view.',
     body:
-      'With experience as both hotelier and buyer, SiteSelectionStrategist evaluates the tradeoffs in each offer and pushes for terms that protect the program while keeping the hotel relationship productive.',
+      'Negotiate the best values on all spend areas to include guest room rates, food and beverage, concessions, meeting room rentals and audio-visual. Negotiate the best terms and conditions to reduce contractual risk especially in the critical areas of attrition and cancelation.',
   },
   {
     title: 'Site Visits',
@@ -71,7 +71,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Plan focused site inspections that reveal whether the property can truly support the program.',
     body:
-      'Site visits are structured around the actual attendee journey, meeting flow, food and beverage needs, guestroom blocks, and operational details that can affect the success of a conference.',
+      'Facilitate client’s site visits to the destination and the short-listed hotels in partnership with the hotels and the Destination Management Organizations (DMO’s).',
   },
   {
     title: 'Contracting',
@@ -80,7 +80,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Review hotel contract details so the final agreement reflects the negotiated intent.',
     body:
-      'Contracting support focuses on the practical clauses that matter for meetings: attrition, cancellation, concessions, cut-off dates, function space, billing, and the details that keep surprises out of the final agreement.',
+      'Exhaustive review of hotel contract to ensure it embodies all agreements reached with the hotel.',
   },
   {
     title: 'Advocacy',
@@ -89,7 +89,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Represent the planner throughout the program, from inception through conclusion.',
     body:
-      'SiteSelectionStrategist acts as the planner advocate through sourcing, negotiation, contracting, and follow-through. The work is built around protecting the program and maintaining productive hotel partnerships.',
+      'Beyond the contract, continued client advocacy with the hotel through the conclusion of the program.',
   },
   {
     title: 'Brand-Blind',
@@ -98,7 +98,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Compare hotel options by program fit and value, not by brand habit or sales pressure.',
     body:
-      'A brand-blind approach keeps attention on the facts: destination fit, dates, meeting space, guestroom rates, concessions, service expectations, and contract terms.',
+      'Our allegiance is to the client and never to a hotel brand.',
   },
   {
     title: 'Ancillary Services',
@@ -107,7 +107,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Coordinate adjacent needs and recommendations that support a complete meeting plan.',
     body:
-      'Beyond the hotel agreement, SiteSelectionStrategist can help surface considerations around destination support, vendor conversations, and operational details that affect the full attendee experience.',
+      'Connect you with ancillary services such as but not limited to Destination Management Companies, Audio-Visual, Transportation, Speaker Bureaus, Event Design, Photography and Promotional Products.',
   },
   {
     title: 'FeeFree',
@@ -116,7 +116,7 @@ export const processItems: ProcessItem[] = [
     excerpt:
       'Support site selection through hotel-funded commissions rather than direct planner fees.',
     body:
-      'The fee-free model is designed to give planners expert sourcing and negotiation support without adding a direct consulting line item to the program budget.',
+      'No charge for our services. We save you valuable time which equates to immeasurable savings.',
   },
 ];
 
